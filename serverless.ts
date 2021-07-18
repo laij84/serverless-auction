@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript'
 
-import { hello } from '@functions/hello'
+import { createAuction } from '@functions/createAuction'
 
 const serverlessConfiguration: AWS = {
   service: 'auction-service',
@@ -17,6 +17,7 @@ const serverlessConfiguration: AWS = {
     runtime: 'nodejs14.x',
     memorySize: 256,
     stage: "${opt:stage, 'dev'}",
+    region: 'eu-west-1',
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -26,9 +27,32 @@ const serverlessConfiguration: AWS = {
     },
     lambdaHashingVersion: '20201221',
   },
+  resources: {
+    Resources: {
+      AuctionsTable: {
+        Type: 'AWS::DynamoDB::Table',
+        Properties: {
+          TableName: 'AuctionsTable',
+          BillingMode: 'PAY_PER_REQUEST',
+          AttributeDefinitions: [
+            {
+              AttributeName: 'id',
+              AttributeType: 'S',
+            },
+          ],
+          KeySchema: [
+            {
+              AttributeName: 'id',
+              KeyType: 'HASH', // Partition Key
+            },
+          ],
+        },
+      },
+    },
+  },
   // import the function via paths
   functions: {
-    hello,
+    createAuction,
   },
 }
 
