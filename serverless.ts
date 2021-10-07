@@ -11,7 +11,7 @@ const serverlessConfiguration: AWS = {
       includeModules: true,
     },
   },
-  plugins: ['serverless-webpack', 'serverless-pseudo-parameters'],
+  plugins: ['serverless-webpack', 'serverless-iam-roles-per-function'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -24,6 +24,7 @@ const serverlessConfiguration: AWS = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      STAGE: '${sls:stage}',
     },
     lambdaHashingVersion: '20201221',
   },
@@ -32,12 +33,12 @@ const serverlessConfiguration: AWS = {
       AuctionsTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
-          TableName: 'AuctionsTable',
+          TableName: 'AuctionsTable-${sls:stage}',
           BillingMode: 'PAY_PER_REQUEST',
           AttributeDefinitions: [
             {
               AttributeName: 'id',
-              AttributeType: 'S',
+              AttributeType: 'S', // S stands for String
             },
           ],
           KeySchema: [
