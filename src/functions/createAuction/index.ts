@@ -9,8 +9,7 @@ export const createAuction = {
       Action: ['dynamodb:PutItem'],
       Resource: [
         {
-          'Fn::Sub':
-            'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AuctionsTable-${sls:stage}',
+          'Fn::GetAtt': ['AuctionsTable', 'Arn'],
         },
       ],
     },

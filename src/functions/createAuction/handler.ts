@@ -31,7 +31,7 @@ const createAuction: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
 
   await dynamodb
     .put({
-      TableName: `AuctionsTable-${process.env.STAGE}`,
+      TableName: process.env.AUCTIONS_TABLE_NAME,
       Item: auction,
     })
     .promise() // If using await you need to chain .promise()

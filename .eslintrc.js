@@ -24,6 +24,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-template-curly-in-string': 'off',
     semi: 'off' /** handled by prettier */,
+    indent: ["error", 2],
     'import/extensions': [
       'error',
       'ignorePackages',
