@@ -1,4 +1,5 @@
 import { createAuction } from '@functions/createAuction'
+import { getAuctions } from '@functions/getAuctions'
 import { AuctionsTable } from '@resources/AuctionsTable'
 
 import type { AWS } from '@serverless/typescript'
@@ -40,6 +41,7 @@ const serverlessConfiguration: AWS = {
   // import the function via paths
   functions: {
     createAuction,
+    getAuctions,
   },
 }
 
