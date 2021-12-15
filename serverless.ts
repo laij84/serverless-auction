@@ -1,7 +1,7 @@
-import type { AWS } from '@serverless/typescript'
-
 import { createAuction } from '@functions/createAuction'
 import { AuctionsTable } from '@resources/AuctionsTable'
+
+import type { AWS } from '@serverless/typescript'
 
 const serverlessConfiguration: AWS = {
   service: 'auction-service',

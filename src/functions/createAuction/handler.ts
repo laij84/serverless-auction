@@ -1,12 +1,15 @@
 import 'source-map-support/register'
 
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway'
+import { DynamoDB } from 'aws-sdk'
+import createError from 'http-errors'
+import { v4 as uuid4 } from 'uuid'
+
 import { formatJSONResponse } from '@libs/apiGateway'
 import { middyfy } from '@libs/lambda'
 
-import { v4 as uuid4 } from 'uuid'
-import { DynamoDB } from 'aws-sdk'
 import { schema } from './schema'
+
+import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway'
 
 const dynamodb = new DynamoDB.DocumentClient()
 
@@ -28,13 +31,16 @@ const createAuction: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
     status: 'OPEN',
     createdAt: new Date().toISOString(),
   }
-
-  await dynamodb
-    .put({
-      TableName: process.env.AUCTIONS_TABLE_NAME,
-      Item: auction,
-    })
-    .promise() // If using await you need to chain .promise()
+  try {
+    await dynamodb
+      .put({
+        TableName: process.env.AUCTIONS_TABLE_NAME,
+        Item: auction,
+      })
+      .promise() // If using await you need to chain .promise()
+  } catch (error) {
+    throw new createError.InternalServerError(error)
+  }
 
   return formatJSONResponse({
     statusCode: 201,
