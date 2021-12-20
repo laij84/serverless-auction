@@ -7,7 +7,7 @@ export const placeBid = {
   iamRoleStatements: [
     {
       Effect: 'Allow',
-      Action: ['dynamodb:UpdateItem'],
+      Action: ['dynamodb:UpdateItem', 'dynamodb:GetItem'],
       Resource: [
         {
           'Fn::GetAtt': ['AuctionsTable', 'Arn'],
