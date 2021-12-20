@@ -3,7 +3,6 @@ import 'source-map-support/register'
 import { DynamoDB } from 'aws-sdk'
 import createError from 'http-errors'
 
-import { getAuctions } from '@functions/getAuctions'
 import { formatJSONResponse } from '@libs/apiGateway'
 import { middyfy } from '@libs/lambda'
 
@@ -12,7 +11,7 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway'
 
 const dynamodb = new DynamoDB.DocumentClient()
 
-export const getAuctionById = async (id: string): Auction => {
+export const getAuctionById = async (id: string): Promise<Auction> => {
   let auction
   try {
     const result = await dynamodb
