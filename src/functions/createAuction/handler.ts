@@ -13,11 +13,16 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway'
 
 const dynamodb = new DynamoDB.DocumentClient()
 
-type Auction = {
+type HighestBid = {
+  amount: number
+}
+
+export type Auction = {
   id: string
   title: string
   status: 'OPEN' | 'CLOSED'
   createdAt: string
+  highestBid: HighestBid
 }
 
 const createAuction: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
@@ -30,6 +35,9 @@ const createAuction: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
     title,
     status: 'OPEN',
     createdAt: new Date().toISOString(),
+    highestBid: {
+      amount: 0,
+    },
   }
   try {
     await dynamodb

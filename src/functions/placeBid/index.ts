@@ -1,11 +1,13 @@
 import { handlerPath } from '@libs/handlerResolver'
 
-export const getAuctions = {
+import { schema } from './schema'
+
+export const placeBid = {
   handler: `${handlerPath(__dirname)}/handler.main`,
   iamRoleStatements: [
     {
       Effect: 'Allow',
-      Action: ['dynamodb:Scan'],
+      Action: ['dynamodb:UpdateItem'],
       Resource: [
         {
           'Fn::GetAtt': ['AuctionsTable', 'Arn'],
@@ -16,8 +18,13 @@ export const getAuctions = {
   events: [
     {
       http: {
-        method: 'GET',
-        path: 'auctions',
+        method: 'PATCH',
+        path: 'auction/{id}/bid',
+        request: {
+          schema: {
+            'application/json': schema,
+          },
+        },
       },
     },
   ],

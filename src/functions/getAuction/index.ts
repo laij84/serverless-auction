@@ -1,11 +1,11 @@
 import { handlerPath } from '@libs/handlerResolver'
 
-export const getAuctions = {
+export const getAuction = {
   handler: `${handlerPath(__dirname)}/handler.main`,
   iamRoleStatements: [
     {
       Effect: 'Allow',
-      Action: ['dynamodb:Scan'],
+      Action: ['dynamodb:GetItem'],
       Resource: [
         {
           'Fn::GetAtt': ['AuctionsTable', 'Arn'],
@@ -17,7 +17,7 @@ export const getAuctions = {
     {
       http: {
         method: 'GET',
-        path: 'auctions',
+        path: 'auction/{id}',
       },
     },
   ],
