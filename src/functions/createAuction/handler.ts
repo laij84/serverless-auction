@@ -22,6 +22,7 @@ export type Auction = {
   title: string
   status: 'OPEN' | 'CLOSED'
   createdAt: string
+  endDate: string
   highestBid: HighestBid
 }
 
@@ -30,11 +31,16 @@ const createAuction: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
 ) => {
   const { title } = event.body
 
+  const now = new Date()
+  const endDate = new Date()
+  endDate.setHours(now.getHours() + 1)
+
   const auction: Auction = {
     id: uuid4(),
     title,
     status: 'OPEN',
-    createdAt: new Date().toISOString(),
+    createdAt: now.toISOString(),
+    endDate: endDate.toISOString(),
     highestBid: {
       amount: 0,
     },

@@ -1,3 +1,5 @@
+import { processAuctions } from '@functions/processAuctions'
+
 import { createAuction } from '@functions/createAuction'
 import { getAuction } from '@functions/getAuction'
 import { getAuctions } from '@functions/getAuctions'
@@ -46,6 +48,7 @@ const serverlessConfiguration: AWS = {
     getAuctions,
     getAuction,
     placeBid,
+    processAuctions,
   },
 }
 
