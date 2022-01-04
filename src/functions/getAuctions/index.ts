@@ -1,14 +1,33 @@
 import { handlerPath } from '@libs/handlerResolver'
 
-export const getAuctions = {
+import type { AWS } from '@serverless/typescript'
+
+type Blah = AWS['functions'][''] & {
+  iamRoleStatements: AWS['provider']['iamRoleStatements']
+}
+
+export const getAuctions: Blah = {
   handler: `${handlerPath(__dirname)}/handler.main`,
   iamRoleStatements: [
     {
       Effect: 'Allow',
-      Action: ['dynamodb:Scan'],
+      Action: ['dynamodb:Query'],
       Resource: [
         {
           'Fn::GetAtt': ['AuctionsTable', 'Arn'],
+        },
+        // Resource for the 'virtual table' dynamoDB uses for the global secondary indexes.
+        {
+          'Fn::Join': [
+            '/',
+            [
+              {
+                'Fn::GetAtt': ['AuctionsTable', 'Arn'],
+              },
+              'index',
+              'statusAndEndDate',
+            ],
+          ],
         },
       ],
     },
@@ -18,6 +37,13 @@ export const getAuctions = {
       http: {
         method: 'GET',
         path: 'auctions',
+        // request: {
+        //   parameters: {
+        //     querystrings: {
+        //       status: true,
+        //     },
+        //   },
+        // },
       },
     },
   ],

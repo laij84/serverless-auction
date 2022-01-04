@@ -1,9 +1,8 @@
-import { processAuctions } from '@functions/processAuctions'
-
 import { createAuction } from '@functions/createAuction'
 import { getAuction } from '@functions/getAuction'
 import { getAuctions } from '@functions/getAuctions'
 import { placeBid } from '@functions/placeBid'
+import { processAuctions } from '@functions/processAuctions'
 import { AuctionsTable } from '@resources/AuctionsTable'
 
 import type { AWS } from '@serverless/typescript'
