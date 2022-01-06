@@ -20,6 +20,7 @@ export const createAuction = {
       http: {
         method: 'POST',
         path: 'auction',
+        authorizer: '${self:custom.authorizer}',
         request: {
           schema: {
             'application/json': schema,

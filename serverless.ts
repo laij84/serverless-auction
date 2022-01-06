@@ -11,6 +11,8 @@ const serverlessConfiguration: AWS = {
   service: 'auction-service',
   frameworkVersion: '2',
   custom: {
+    authorizer:
+      'arn:aws:lambda:${aws:region}:${aws:accountId}:function:auth-service-${sls:stage}-auth',
     webpack: {
       webpackConfig: './webpack.config.js',
       includeModules: true,
