@@ -18,6 +18,7 @@ export const getAuction = {
       http: {
         method: 'GET',
         path: 'auction/{id}',
+        authorizer: '${self:custom.authorizer}',
       },
     },
   ],

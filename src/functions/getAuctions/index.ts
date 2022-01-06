@@ -37,6 +37,7 @@ export const getAuctions: Blah = {
       http: {
         method: 'GET',
         path: 'auctions',
+        authorizer: '${self:custom.authorizer}',
         // request: {
         //   parameters: {
         //     querystrings: {

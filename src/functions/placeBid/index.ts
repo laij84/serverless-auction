@@ -20,6 +20,7 @@ export const placeBid = {
       http: {
         method: 'PATCH',
         path: 'auction/{id}/bid',
+        authorizer: '${self:custom.authorizer}',
         request: {
           schema: {
             'application/json': schema,
